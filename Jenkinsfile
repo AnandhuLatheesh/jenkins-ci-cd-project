@@ -1,25 +1,23 @@
-pipeline
- {
+pipeline 
+{
     agent any
 
     stages {
 
-        stage('Clone Check') {
+        stage('Build Docker Image') {
             steps {
-                sh 'echo Repository cloned successfully'
+                sh 'docker build -t mlops-app .'
             }
         }
 
-        stage('Build Stage') {
+        stage('Deploy Container') {
             steps {
-                sh 'echo Building application...'
+                sh '''
+                docker stop mlops-container || true
+                docker rm mlops-container || true
+                docker run -d -p 5000:5000 --name mlops-container mlops-app
+                '''
             }
         }
-
-        stage('Deploy Stage') {
-            steps {
-                sh 'echo Deploying application...'
-            }
-        }
-            }
+    }
 }
