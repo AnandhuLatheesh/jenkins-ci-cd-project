@@ -3,12 +3,6 @@ pipeline {
 
     stages {
 
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/AnandhuLatheesh/jenkins-ci-cd-project.git'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 sh 'sudo docker build -t mlops-app .'
